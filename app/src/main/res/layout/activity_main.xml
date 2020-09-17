@@ -93,7 +93,7 @@
                 android:id="@+id/button_blowout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Blowout" />
+                android:text="Extinguished" />
 
             <Button
                 android:id="@+id/button_goodbye"

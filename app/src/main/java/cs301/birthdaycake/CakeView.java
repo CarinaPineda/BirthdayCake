@@ -12,9 +12,6 @@ import android.view.View;
 public class CakeView extends SurfaceView implements View.OnTouchListener {
 
     private CakeModel cake;
-    private int touchX;
-    private int touchY;
-    private boolean balloon;
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();
@@ -23,9 +20,9 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    Paint redPaint = new Paint();
     Paint balloonPaint = new Paint();
     Paint stringPaint = new Paint();
-
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -37,7 +34,7 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
     public static final float cakeWidth = 1200.0f;
     public static final float layerHeight = 200.0f;
     public static final float frostHeight = 50.0f;
-    public static final float candleHeight = 300.0f;
+    public static final float candleHeight = 150.0f;
     public static final float candleWidth = 40.0f;
     public static final float wickHeight = 30.0f;
     public static final float wickWidth = 6.0f;
@@ -68,15 +65,15 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        redPaint.setColor(Color.RED);
+        redPaint.setTextSize(50);
         balloonPaint.setColor(Color.BLUE);
+        balloonPaint.setStyle(Paint.Style.FILL);
         stringPaint.setColor(Color.BLACK);
         stringPaint.setStyle(Paint.Style.STROKE);
-        stringPaint.setStrokeWidth(5.0f);
-
+        stringPaint.setStrokeWidth(5);
 
         setBackgroundColor(Color.WHITE);  //better than black default
-
-        this.setOnTouchListener(this);
 
     }
 
@@ -115,7 +112,6 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
          */
         @Override
         public void onDraw(Canvas canvas){
-
             //top and bottom are used to keep a running tally as we progress down the cake layers
             float top = cakeTop;
             float bottom = cakeTop + frostHeight;
@@ -143,24 +139,11 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
                 drawCandle(canvas, cakeLeft + i*cakeWidth/6, cakeTop);
                 //drawCandle(canvas, cakeLeft + cakeWidth / 4 - candleWidth / 4, cakeTop);
             }
-
-            //draw a balloon if the boolean balloon is true
-            if (balloon) {
-                drawBalloon(canvas, touchX, touchY);
-            }
+            canvas.drawText("("+ cake.xCoord +", "+ cake.yCoord+ ")",1550.0f,580.0f,redPaint);
+            drawBalloon(canvas, cake.xCoord, cake.yCoord);
 
         }//onDraw
 
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            //when a touch event happens on this view record the position of the event and
-            //set the boolean balloon variable to true so the onDraw method knows to draw the balloon
-            touchX =  (int) event.getX();
-            touchY = (int) event.getY();
-            balloon = true;
-            this.invalidate();
-            return true;
-        }
 
          //create the balloon
         public void drawBalloon(Canvas canvas, float left, float top) {

@@ -6,18 +6,18 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 
-public class CakeController implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener{
+public class CakeController implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
     private CakeView cv;
     private CakeModel cm;
 
-    public CakeController(CakeView cv){
+    public CakeController(CakeView cv) {
         this.cv = cv;
         this.cm = cv.getCakeModel();
     }
 
     @Override
     public void onClick(View view) {
-        Log.d("Button","Receiving Clicks");
+        Log.d("Button", "Receiving Clicks");
         cm.candleLit = false;
         cv.invalidate();
 
@@ -25,7 +25,7 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if(b){
+        if (b) {
             cm.hasCandle = true;
         } else {
             cm.hasCandle = false;
@@ -36,22 +36,35 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-      if(b){
-          cm.candleCount = i;
-          cv.invalidate();
-      }
+        if (b) {
+            cm.candleCount = i;
+            cv.invalidate();
+        }
 
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
     }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        cm.xCoord = (int) event.getX();
+        cm.yCoord = (int) event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+        }
+
+
+        return false;
+    }
+
 
 /*
 1.	Your onClick() method should modify the model to indicate that the candles are not lit.

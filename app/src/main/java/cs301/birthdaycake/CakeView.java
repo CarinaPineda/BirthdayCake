@@ -18,6 +18,7 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    Paint redPaint = new Paint();
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -60,6 +61,8 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        redPaint.setColor(Color.RED);
+        redPaint.setTextSize(50);
 
         setBackgroundColor(Color.WHITE);  //better than black default
 
@@ -127,6 +130,8 @@ public class CakeView extends SurfaceView {
                 drawCandle(canvas, cakeLeft + i*cakeWidth/6, cakeTop);
                 //drawCandle(canvas, cakeLeft + cakeWidth / 4 - candleWidth / 4, cakeTop);
             }
+            canvas.drawText("("+ cake.xCoord +", "+ cake.yCoord+ ")",1550.0f,580.0f,redPaint);
+
 
         }//onDraw
 
@@ -136,4 +141,8 @@ public class CakeView extends SurfaceView {
 
     }//class CakeView
 
-
+    /*:  Modify the birthday cake app so that it reports the x,y location where a touch occurs.
+        You should use the Canvas.drawText() method to “draw” this information in the lower
+        right-hand corner of the CakeView canvas in red text large enough to be easily read.
+        (Don’t add a new View to your layout.) It is ok to hardcode this coordinate for this
+        current purpose*/

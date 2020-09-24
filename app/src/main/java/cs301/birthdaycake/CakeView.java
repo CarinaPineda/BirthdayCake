@@ -19,6 +19,8 @@ public class CakeView extends SurfaceView {
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
     Paint redPaint = new Paint();
+    Paint balloonPaint = new Paint();
+    Paint stringPaint = new Paint();
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -63,6 +65,11 @@ public class CakeView extends SurfaceView {
         wickPaint.setStyle(Paint.Style.FILL);
         redPaint.setColor(Color.RED);
         redPaint.setTextSize(50);
+        balloonPaint.setColor(Color.BLUE);
+        balloonPaint.setStyle(Paint.Style.FILL);
+        stringPaint.setColor(Color.BLACK);
+        stringPaint.setStyle(Paint.Style.STROKE);
+        stringPaint.setStrokeWidth(5);
 
         setBackgroundColor(Color.WHITE);  //better than black default
 
@@ -92,7 +99,12 @@ public class CakeView extends SurfaceView {
             }
         }
     }
+        public void paintBalloon(Canvas canvas){
+        canvas.drawLine(cake.xCoord, cake.yCoord, cake.xCoord,cake.yCoord+300.0f,stringPaint);
+        canvas.drawOval(cake.xCoord -50.0f, cake.yCoord -100.0f, cake.xCoord + 50.0f, cake.yCoord +100.0f, balloonPaint);
 
+
+        }
 
         /**
          * onDraw is like "paint" in a regular Java program.  While a Canvas is
@@ -131,7 +143,7 @@ public class CakeView extends SurfaceView {
                 //drawCandle(canvas, cakeLeft + cakeWidth / 4 - candleWidth / 4, cakeTop);
             }
             canvas.drawText("("+ cake.xCoord +", "+ cake.yCoord+ ")",1550.0f,580.0f,redPaint);
-
+            paintBalloon(canvas);
 
         }//onDraw
 

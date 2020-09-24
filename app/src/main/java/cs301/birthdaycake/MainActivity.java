@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         CakeView cv = findViewById(R.id.cakeview);
         CakeController cc = new CakeController(cv);
+        cv.setOnClickListener(cc);
 
       blowout = findViewById(R.id.button_blowout);
       blowout.setOnClickListener(cc);

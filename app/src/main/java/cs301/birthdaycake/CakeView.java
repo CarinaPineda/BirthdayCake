@@ -5,11 +5,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 
-public class CakeView extends SurfaceView {
+public class CakeView extends SurfaceView implements View.OnTouchListener {
 
     private CakeModel cake;
+    private int touchX;
+    private int touchY;
+    private boolean balloon;
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();
@@ -18,6 +23,9 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    Paint balloonPaint = new Paint();
+    Paint stringPaint = new Paint();
+
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -60,8 +68,15 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        balloonPaint.setColor(Color.BLUE);
+        stringPaint.setColor(Color.BLACK);
+        stringPaint.setStyle(Paint.Style.STROKE);
+        stringPaint.setStrokeWidth(5.0f);
+
 
         setBackgroundColor(Color.WHITE);  //better than black default
+
+        this.setOnTouchListener(this);
 
     }
 
@@ -100,6 +115,7 @@ public class CakeView extends SurfaceView {
          */
         @Override
         public void onDraw(Canvas canvas){
+
             //top and bottom are used to keep a running tally as we progress down the cake layers
             float top = cakeTop;
             float bottom = cakeTop + frostHeight;
@@ -128,7 +144,31 @@ public class CakeView extends SurfaceView {
                 //drawCandle(canvas, cakeLeft + cakeWidth / 4 - candleWidth / 4, cakeTop);
             }
 
+            //draw a balloon if the boolean balloon is true
+            if (balloon) {
+                drawBalloon(canvas, touchX, touchY);
+            }
+
         }//onDraw
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            //when a touch event happens on this view record the position of the event and
+            //set the boolean balloon variable to true so the onDraw method knows to draw the balloon
+            touchX =  (int) event.getX();
+            touchY = (int) event.getY();
+            balloon = true;
+            this.invalidate();
+            return true;
+        }
+
+         //create the balloon
+        public void drawBalloon(Canvas canvas, float left, float top) {
+            //draw the oval and string for the balloon;
+            canvas.drawOval(left, top, left+60.0f, top-75.0f, balloonPaint);
+            canvas.drawLine(left+30.0f, top, left+30.0f, top+90.0f, stringPaint);
+        }
+
 
         public CakeModel getCakeModel () {
             return this.cake;
